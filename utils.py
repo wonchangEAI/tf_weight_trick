@@ -29,13 +29,10 @@ def param_value_load_ops(param_tensor_list):
 
     return load_ops_list, load_ph_list
 
-# TODO: make a graph
-# TODO: save_init_param, train, save_final_param
-
 # Get list of trainable parameters
 param_tensor_list = tf.trainable_variables()
 
-# TODO: figure out hwo to save and load tf params in numpy
+# TODO: figure out how to save and load tf params in numpy
 # Load initial parameter list
 # as list of ndarray
 init_param_value_list = ...
@@ -47,6 +44,7 @@ final_param_value_list = ...
 # Build load operation
 load_ops_list, load_ph_list = param_value_load_ops(param_tensor_list)
 
+# CHECK: factoring possible?
 # Open session
 tf.global_variables_initializer().run()
 with tf.Session() as sess:
@@ -63,8 +61,7 @@ with tf.Session() as sess:
 	             feed_dict=feed_dict)
 
 	    # do eval by using the graph
-        # TODO: figure out how to load .trainable_variables() onto graph
-        # TODO: NO need to do that?
-	    
+	    cost_value = sess.run(cost,
+                              feed_dict=...)
 
 
