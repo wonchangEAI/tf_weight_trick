@@ -37,9 +37,9 @@ param_tensor_list = tf.trainable_variables()
 # as list of ndarray
 init_param_value_list = ...
 
-# Load final parameter list
+# Load trained parameter list
 # as list of ndarray
-final_param_value_list = ...
+trnd_param_value_list = ...
 
 # Build load operation
 load_ops_list, load_ph_list = param_value_load_ops(param_tensor_list)
@@ -48,20 +48,19 @@ load_ops_list, load_ph_list = param_value_load_ops(param_tensor_list)
 # Open session
 tf.global_variables_initializer().run()
 with tf.Session() as sess:
-    # linearly combine init and final parameters
-
+    # linearly combine init and trained parameters
     # do looping for alpha
     for alpha in np.arange(0.0,1.01,.01):
-	    feed_dict = {}
-	    for load_ph, init_value, final_value in zip(load_ph_list, init_param_value_list, final_param_value_list):
-	        # linearly combine values
-	        feed_dict[load_ph] = init_value*(1.-alpha) + final_value*alpha
+        feed_dict = {}
+        for load_ph, init_value, trnd_value in zip(load_ph_list, init_param_value_list, trnd_param_value_list):
+            # linearly combine values
+            feed_dict[load_ph] = init_value*(1.-alpha) + trnd_value*alpha
 
-	    sess.run(load_ops_list,
-	             feed_dict=feed_dict)
+        sess.run(load_ops_list,
+                 feed_dict=feed_dict)
 
-	    # do eval by using the graph
-	    cost_value = sess.run(cost,
+        # do eval by using the graph
+        cost_value = sess.run(cost,
                               feed_dict=...)
 
 
